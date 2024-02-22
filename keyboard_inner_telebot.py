@@ -20,7 +20,6 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 MY_WEB_API_STEAM_KEY = os.getenv('MY_WEB_API_STEAM_KEY')
 
-
 bot = AsyncTeleBot(TELEGRAM_TOKEN, state_storage=StateMemoryStorage())
 
 BotDB = BotDB('tg_steam_accs.db')
@@ -57,11 +56,17 @@ class Treaker:
                                reply_markup=markup)
         while self.work:
             try:
+                user_games_id = [str(games[0]) for games
+                                 in BotDB.get_all_user_games(user_id)]
                 for nickname, steamID in BotDB.get_all_track_users(user_id):
+
                     api_response = get_api_answer(steamID)
                     profile_status = api_response.get('personastate')
                     current_game = api_response.get('gameextrainfo')
-                    if profile_status == 1 and current_game is not None:
+                    current_game_id = api_response.get('gameid')
+
+                    if (profile_status == 1 and
+                       current_game_id in user_games_id):
                         message = f'{nickname} играет в {current_game}'
                         if (verdict_list.get(nickname) != message
                            and message.split()[1] != 'None'):
