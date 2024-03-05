@@ -77,7 +77,6 @@ class Treaker:
                         if (verdict_list.get(nickname) != message
                            and message.split()[1] != 'None'):
                             await bot.send_message(chat_id, message)
-                            print(message)
                             verdict_list[nickname] = message
                     else:
                         if verdict_list.get(nickname):
@@ -86,7 +85,8 @@ class Treaker:
                 message = f'Сбой в работе программы: {error}'
                 if verdict_list['error'] != message:
                     await bot.send_message(chat_id, f'Ошибка в цикле {error}')
-                    logger.error(f'Ошибка в цикле {error}')
+                    logger.error(f'Ошибка в цикле {error}. '
+                                 f'Api response: {api_response}')
             else:
                 verdict_list['error'] = None
             await asyncio.sleep(10)
