@@ -10,7 +10,7 @@ from telebot.asyncio_handler_backends import State, StatesGroup
 from dotenv import load_dotenv
 
 from db import BotDB
-from validators import validate_game_url, validate_profile_url
+from validators import validate_game_url, validate_profile_url, logger
 from parsers import get_game_id_from_name, get_player_name_and_id_from_url
 
 
@@ -41,7 +41,12 @@ class ProfileStates(StatesGroup):
 def get_api_answer(steamID):
     url = ('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/'
            f'?key={MY_WEB_API_STEAM_KEY}&steamids={steamID}')
-    api_data = requests.get(url).json()['response']['players'][0]
+    api_response = requests.get(url).json()
+    try:
+        api_data = api_response['response']['players'][0]
+    except Exception as error:
+        logger.error(f'Исключение {error}. API вернул: {api_response}')
+        api_data = False
     return api_data
 
 
@@ -68,6 +73,7 @@ class Treaker:
                     if (profile_status == 1 and
                        current_game_id in user_games_id):
                         message = f'{nickname} играет в {current_game}'
+
                         if (verdict_list.get(nickname) != message
                            and message.split()[1] != 'None'):
                             await bot.send_message(chat_id, message)
@@ -79,10 +85,10 @@ class Treaker:
             except Exception as error:
                 message = f'Сбой в работе программы: {error}'
                 if verdict_list['error'] != message:
-                    print(message)
+                    logger.error(f'Ошибка в цикле {error}')
             else:
                 verdict_list['error'] = None
-            await asyncio.sleep(5)
+            await asyncio.sleep(10)
 
 
 @bot.message_handler(func=lambda msg: msg.text == 'Добавить свою')
@@ -112,7 +118,7 @@ async def save_game_url(message):
         if (not BotDB.is_game_tracking(user_id, game_id)):
             BotDB.add_game_to_track(user_id, game_id, game_name)
             await bot.send_message(chat_id,
-                                   f'{game_name} успешно добалвена'
+                                   f'{game_name} успешно добавлена'
                                    ' в отслеживаемые',
                                    reply_markup=markup)
         else:
