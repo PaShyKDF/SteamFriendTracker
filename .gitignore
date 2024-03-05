@@ -57,6 +57,7 @@ coverage.xml
 
 # Django stuff:
 *.log
+*.db
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
@@ -149,6 +150,3 @@ dmypy.json
 static/
 posts/static/
 media/
-
-# Логи
-homework_logs.log

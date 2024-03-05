@@ -85,6 +85,7 @@ class Treaker:
             except Exception as error:
                 message = f'Сбой в работе программы: {error}'
                 if verdict_list['error'] != message:
+                    await bot.send_message(chat_id, f'Ошибка в цикле {error}')
                     logger.error(f'Ошибка в цикле {error}')
             else:
                 verdict_list['error'] = None
