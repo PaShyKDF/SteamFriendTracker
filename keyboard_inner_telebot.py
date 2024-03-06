@@ -46,7 +46,7 @@ def get_api_answer(steamID):
         api_data = api_response['response']['players'][0]
     except Exception as error:
         logger.error(f'Исключение {error}. API вернул: {api_response}')
-        api_data = False
+        api_data = api_response
     return api_data
 
 
@@ -344,4 +344,4 @@ bot.add_custom_filter(asyncio_filters.IsDigitFilter())
 
 # asyncio_helper.proxy = 'http://proxy.server:3128'
 
-asyncio.run(bot.polling())
+asyncio.run(bot.polling(non_stop=True, request_timeout=90))
