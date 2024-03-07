@@ -46,7 +46,7 @@ def get_api_answer(steamID):
         api_data = api_response['response']['players'][0]
     except Exception as error:
         logger.error(f'Исключение {error}. API вернул: {api_response}')
-        api_data = api_response
+        api_data = None
     return api_data
 
 
@@ -84,7 +84,6 @@ class Treaker:
             except Exception as error:
                 message = f'Сбой в работе программы: {error}'
                 if verdict_list['error'] != message:
-                    await bot.send_message(chat_id, f'Ошибка в цикле {error}')
                     logger.error(f'Ошибка в цикле {error}. '
                                  f'Api response: {api_response}')
             else:
