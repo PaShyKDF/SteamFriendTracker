@@ -43,7 +43,7 @@ def get_api_answer(steamID):
            f'?key={MY_WEB_API_STEAM_KEY}&steamids={steamID}')
     api_response = requests.get(url).json()
     try:
-        api_data = api_response['response']['players'][0]
+        api_data = api_response['response']['players']
     except Exception as error:
         logger.error(f'Исключение {error}. API вернул: {api_response}')
         api_data = None
@@ -61,15 +61,17 @@ class Treaker:
                                reply_markup=markup)
         while self.work:
             try:
-                user_games = BotDB.get_all_user_games(user_id)
                 user_games_id = [str(games[0]) for games
-                                 in user_games]
-                for nickname, steamID in user_games:
+                                 in BotDB.get_all_user_games(user_id)]
 
-                    api_response = get_api_answer(steamID)
-                    profile_status = api_response.get('personastate')
-                    current_game = api_response.get('gameextrainfo')
-                    current_game_id = api_response.get('gameid')
+                i = [i[1] for i in BotDB.get_all_track_users(user_id)]
+
+                api_response = get_api_answer(i)
+                for player_summary in api_response:
+                    nickname = player_summary.get('personaname')
+                    profile_status = player_summary.get('personastate')
+                    current_game = player_summary.get('gameextrainfo')
+                    current_game_id = player_summary.get('gameid')
 
                     if (profile_status == 1 and
                        current_game_id in user_games_id):
