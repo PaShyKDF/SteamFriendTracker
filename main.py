@@ -61,9 +61,10 @@ class Treaker:
                                reply_markup=markup)
         while self.work:
             try:
+                user_games = BotDB.get_all_user_games(user_id)
                 user_games_id = [str(games[0]) for games
-                                 in BotDB.get_all_user_games(user_id)]
-                for nickname, steamID in BotDB.get_all_track_users(user_id):
+                                 in user_games]
+                for nickname, steamID in user_games:
 
                     api_response = get_api_answer(steamID)
                     profile_status = api_response.get('personastate')
@@ -82,12 +83,8 @@ class Treaker:
                         if verdict_list.get(nickname):
                             del verdict_list[nickname]
             except Exception as error:
-                message = f'Сбой в работе программы: {error}'
-                if verdict_list['error'] != message:
-                    logger.error(f'Ошибка в цикле {error}. '
-                                 f'Api response: {api_response}')
-            else:
-                verdict_list['error'] = None
+                logger.error(f'Ошибка в цикле {error}. '
+                             f'Api response: {api_response}')
             await asyncio.sleep(10)
 
 
@@ -343,4 +340,4 @@ bot.add_custom_filter(asyncio_filters.IsDigitFilter())
 
 # asyncio_helper.proxy = 'http://proxy.server:3128'
 
-asyncio.run(bot.polling(non_stop=True, request_timeout=90))
+asyncio.run(bot.polling(non_stop=True, request_timeout=180))
