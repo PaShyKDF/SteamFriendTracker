@@ -5,7 +5,8 @@ from requests.exceptions import RequestException
 
 
 STORE_URL = 'http://store.steampowered.com/app/{}/'
-STOREFRONT_API_URL = 'http://store.steampowered.com/api/storesearch/?term={}&l=english&cc=US'
+STOREFRONT_API_URL = ('http://store.steampowered.com/api/storesearch/'
+                      '?term={}&l=english&cc=US')
 
 
 def get_results(text):
@@ -24,12 +25,12 @@ def get_results(text):
         return 'No results found for "{}".'.format(query)
     game = results['items'][0]
     name = game['name']
-    if not 'price' in game:
+    if 'price' not in game:
         price = 'Free!'
     else:
         price = '${}'.format(game['price']['final'] / 100)
-        discount = int((game['price']['initial'] - game['price']['final']) /
-                       game['price']['initial'] * 100)
+        discount = int((game['price']['initial'] - game['price']['final'])
+                       / game['price']['initial'] * 100)
         if discount:
             price = '{} [-{}%]'.format(price, discount)
     platforms = []

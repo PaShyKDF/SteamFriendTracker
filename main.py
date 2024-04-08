@@ -22,7 +22,8 @@ MY_WEB_API_STEAM_KEY = os.getenv('MY_WEB_API_STEAM_KEY')
 
 bot = AsyncTeleBot(TELEGRAM_TOKEN, state_storage=StateMemoryStorage())
 
-BotDB = BotDB('tg_steam_accs.db')
+# BotDB = BotDB('tg_steam_accs.db')
+BotDB = BotDB()
 
 
 support_games = {'Counter-Strike 2': '730', 'Dota 2': '570',
@@ -73,8 +74,8 @@ class Treaker:
                     current_game = player_summary.get('gameextrainfo')
                     current_game_id = player_summary.get('gameid')
 
-                    if (profile_status == 1 and
-                       current_game_id in user_games_id):
+                    if (profile_status == 1
+                       and current_game_id in user_games_id):
                         message = f'{nickname} играет в {current_game}'
 
                         if (verdict_list.get(nickname) != message

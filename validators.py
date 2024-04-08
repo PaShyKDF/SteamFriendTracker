@@ -29,7 +29,7 @@ def validate_game_url(url: str) -> bool:
         responce = requests.get(
             'https://store.steampowered.com/api/appdetails?'
             f'appids={game_id}&cc=tw'
-            ).json()
+        ).json()
         try:
             responce = responce[game_id]['success']
             logger.info('Ссылка на игру валидна')
@@ -52,7 +52,7 @@ def validate_profile_url(url: str) -> bool:
         profile_id = url.rstrip('/').split('/')[-1]
         responce = requests.get(
             f'https://api.findsteamid.com/steam/api/summary/{profile_id}'
-            ).json()
+        ).json()
         if responce:
             logger.info('Ссылка на профиль стим валидна')
             return True
