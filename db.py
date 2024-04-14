@@ -1,31 +1,5 @@
-# import psycopg2
-# from config import host, user, password, db_name, port
-
-
-# try:
-#     connection = psycopg2.connect(
-#         host=host,
-#         user=user,
-#         password=password,
-#         database=db_name,
-#         port=port
-#     )
-
-#     cursor = connection.cursor()
-
-#     cursor.execute("SELECT id FROM users WHERE user_id = %s", (1,))
-#     print(f'Server version: {cursor.fetchone()}')
-
-# except Exception as _ex:
-#     print('[INFO] Error while working with PostgreSQL', _ex)
-# finally:
-#     if connection:
-#         cursor.close()
-#         connection.close()
-#         print('[INFO] PostgreSQL connection closed')
-
-
 import os
+import time
 import psycopg2
 from dotenv import load_dotenv
 
@@ -84,6 +58,8 @@ class BotDB:
         """Получаем все игры пользователя"""
         user_id = self.get_user_id(user_id)
         self.cursor.execute("SELECT game_id, game_name FROM game_tracking WHERE user_id = %s", (user_id,))
+        # self.cursor.execute('CREATE INDEX user_id_index ON "game_tracking"("user_id");')
+        # self.cursor.execute("DROP INDEX user_id_index;")
         return self.cursor.fetchall()
 
     def get_game_name_by_id(self, user_id, game_id):
@@ -104,6 +80,10 @@ class BotDB:
         self.cursor.execute("SELECT steam_id FROM steam_accounts WHERE user_id = %s AND steam_id = %s", (user_id, steam_id))
         result = bool(len(self.cursor.fetchall()))
         return result
+        # self.cursor.execute('CREATE INDEX user_id_index ON "steam_accounts"("user_id");')
+        # self.cursor.execute('CREATE INDEX steam_id_index ON "steam_accounts"("steam_id");')
+        # self.cursor.execute("EXPLAIN SELECT steam_id FROM steam_accounts WHERE user_id = %s AND steam_id = %s", (user_id, steam_id))
+        # return self.cursor.fetchone()
 
     def add_user_to_track(self, user_id, steam_id, nickname):
         """Добавляем игрока в отслеживаемые"""
@@ -132,6 +112,14 @@ class BotDB:
     def is_game_verdict(self, game_id):
         self.cursor.execute("SELECT * FROM game_verdicts WHERE game_id = %s", (game_id,))
         return bool(len(self.cursor.fetchall()))
+
+
+if __name__ == '__main__':
+    time_start = time.time()
+    BotDB = BotDB()
+    print(BotDB.is_user_tracking(6535524676, 76561198331314442))
+    time_stop = time.time()
+    print(time_stop - time_start)
 
 
 # import sqlite3

@@ -46,7 +46,7 @@ def validate_game_url(url: str) -> bool:
     return False
 
 
-def validate_profile_url(url: str) -> bool:
+def validate_profile_url(url: str) -> list:
     if (url.startswith('https://steamcommunity.com/id/')
             or url.startswith('https://steamcommunity.com/profiles/')):
         profile_id = url.rstrip('/').split('/')[-1]
@@ -55,7 +55,7 @@ def validate_profile_url(url: str) -> bool:
         ).json()
         if responce:
             logger.info('Ссылка на профиль стим валидна')
-            return True
+            return responce
         else:
             logger.warning(f'Данный профиль не доступен по ссылке {url}')
             return False
@@ -66,9 +66,9 @@ def validate_profile_url(url: str) -> bool:
 d = {'730': 'Counter-Strike 2', '570': 'Dota 2'}
 
 if __name__ == '__main__':
-    print(validate_game_url(
-        'https://store.steampowered.com/app/0/Egg/'))
-    # print(validate_profile_url('https://steamcommunity.com/id/DIDIiDIDIDI/'))
+    # print(validate_game_url(
+    #     'https://store.steampowered.com/app/0/Egg/'))
+    print(validate_profile_url('https://steamcommunity.com/id/DIDIiDIDIDI/'))
 
     # for i, j in d.items():
     #     print(i, j)

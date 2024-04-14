@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 from db import BotDB
 from validators import validate_game_url, validate_profile_url, logger
-from parsers import get_game_id_from_name, get_player_name_and_id_from_url
+from parsers import get_game_id_from_name
 
 
 load_dotenv()
@@ -65,9 +65,9 @@ class Treaker:
                 user_games_id = [str(games[0]) for games
                                  in BotDB.get_all_user_games(user_id)]
 
-                i = [i[1] for i in BotDB.get_all_track_users(user_id)]
+                user_games = [i[1] for i in BotDB.get_all_track_users(user_id)]
 
-                api_response = get_api_answer(i)
+                api_response = get_api_answer(user_games)
                 for player_summary in api_response:
                     nickname = player_summary.get('personaname')
                     profile_status = player_summary.get('personastate')
@@ -153,18 +153,21 @@ async def save_profile_url(message):
     menu = types.KeyboardButton('В меню')
     markup.add(add_one_more, menu)
 
-    if validate_profile_url(message.text):
-        for username, steam_id in get_player_name_and_id_from_url(
-                message.text):
-            if (not BotDB.is_user_tracking(user_id, steam_id)):
-                BotDB.add_user_to_track(user_id, steam_id, username)
-                await bot.send_message(chat_id,
-                                       f'Игрок {username} добавлен '
-                                       'в отслеживаемые',
-                                       reply_markup=markup)
-            else:
-                await bot.send_message(chat_id, 'Этот игрок уже отслеживается',
-                                       reply_markup=markup)
+    profile_data = validate_profile_url(message.text)
+
+    if profile_data:
+        profile_data = profile_data[0]
+        username = profile_data['personaname']
+        steam_id = profile_data['steamid']
+        if (not BotDB.is_user_tracking(user_id, steam_id)):
+            BotDB.add_user_to_track(user_id, steam_id, username)
+            await bot.send_message(chat_id,
+                                   f'Игрок {username} добавлен '
+                                   'в отслеживаемые',
+                                   reply_markup=markup)
+        else:
+            await bot.send_message(chat_id, 'Этот игрок уже отслеживается',
+                                   reply_markup=markup)
     else:
         await bot.send_message(chat_id,
                                'Такого аккаунта нет или '
