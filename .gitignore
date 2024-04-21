@@ -153,6 +153,7 @@ media/
 
 temp.py
 keyboard_inner_telebot.py
-docker-compose.loacl.yml
+docker-compose.local.yml
+searcher_st_app.py
 *.session
 *.session-journal
