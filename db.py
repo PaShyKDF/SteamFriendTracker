@@ -1,5 +1,4 @@
 import os
-import time
 import psycopg2
 from dotenv import load_dotenv
 
@@ -114,14 +113,6 @@ class BotDB:
         return bool(len(self.cursor.fetchall()))
 
 
-if __name__ == '__main__':
-    time_start = time.time()
-    BotDB = BotDB()
-    print(BotDB.is_user_tracking(6535524676, 76561198331314442))
-    time_stop = time.time()
-    print(time_stop - time_start)
-
-
 # import sqlite3
 
 
@@ -219,14 +210,3 @@ if __name__ == '__main__':
 #     def is_game_verdict(self, game_id):
 #         result = self.cursor.execute("SELECT * FROM game_verdicts WHERE game_id = ?", (game_id,))
 #         return bool(len(result.fetchall()))
-
-
-# if __name__ == '__main__':
-#     BotDB = BotDB('tg_steam_accs.db')
-#     # BotDB.add_game_to_track(6535524676, 730, 'Counter-Strike_2')
-#     # print(BotDB.is_game_tracking(user_id=6535524676, game_id=730))
-#     # print(BotDB.does_user_have_games(6535524676))
-#     # print(BotDB.get_all_user_games(6535524676))
-#     # print(len(BotDB.get_all_track_users(6535524676)))
-#     # print(BotDB.get_nickname_by_steam_id(user_id=6535524676, steam_id=76561198331314442))
-#     print(BotDB.is_game_verdict(game_id=730))

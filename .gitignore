@@ -60,7 +60,7 @@ coverage.xml
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-tg_steam_accs.db
+*.db
 
 # Flask stuff:
 instance/
@@ -150,3 +150,9 @@ dmypy.json
 static/
 posts/static/
 media/
+
+temp.py
+keyboard_inner_telebot.py
+docker-compose.loacl.yml
+*.session
+*.session-journal
