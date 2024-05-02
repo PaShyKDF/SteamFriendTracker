@@ -5,15 +5,7 @@ Steam Friend Tracker - Telegram бот, работающий на основе S
 Бот построен на асинхронной библиотеке Telebot, использует в качестве базы данных PostgreSQL и PGAdmin для управления ей. Все приложения упакованы в Docker контейнеры и запускаются через Docker-Compose. Также проект обновляется и поддерживается через технологию CI/CD и GitHub Actions.
 
 ### Стек технологий:
-<img src="https://img.shields.io/badge/Python-3776ab?style=for-the-badge&logo=python&logoColor=yellow"/>
-<img src="https://img.shields.io/badge/PostgreSQL-50b0f0?style=for-the-badge&logo=postgresql&logoColor=white"/>
-<img src="https://img.shields.io/badge/PGAdmin-326690?style=for-the-badge&logo=postgresql&logoColor=white"/>
-<img src="https://img.shields.io/badge/CI&CD-B8860B?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/github actions-4B0082?style=for-the-badge&logo=githubactions&logoColor=2088FF"/>
-<img src="https://img.shields.io/badge/docker-1d63ed?style=for-the-badge&logo=docker&logoColor=white"/>
-<img src="https://img.shields.io/badge/nginx-006400?style=for-the-badge&logo=nginx&logoColor=32CD32"/>
-<img src="https://img.shields.io/badge/json-000000?style=for-the-badge&logo=json&logoColor=white"/>
-<img src="https://img.shields.io/badge/yaml-FF0000?style=for-the-badge&logo=yaml&logoColor=white"/>
+<img src="https://img.shields.io/badge/Python-3776ab?style=for-the-badge&logo=python&logoColor=yellow"/> <img src="https://img.shields.io/badge/PostgreSQL-50b0f0?style=for-the-badge&logo=postgresql&logoColor=white"/> <img src="https://img.shields.io/badge/PGAdmin-326690?style=for-the-badge&logo=postgresql&logoColor=white"/> <img src="https://img.shields.io/badge/CI&CD-B8860B?style=for-the-badge"/> <img src="https://img.shields.io/badge/github actions-4B0082?style=for-the-badge&logo=githubactions&logoColor=2088FF"/> <img src="https://img.shields.io/badge/docker-1d63ed?style=for-the-badge&logo=docker&logoColor=white"/> <img src="https://img.shields.io/badge/nginx-006400?style=for-the-badge&logo=nginx&logoColor=32CD32"/> <img src="https://img.shields.io/badge/json-000000?style=for-the-badge&logo=json&logoColor=white"/> <img src="https://img.shields.io/badge/yaml-FF0000?style=for-the-badge&logo=yaml&logoColor=white"/>
 
 # Инструкция по запуску проекта
 ### Чтобы запустить проект, нужно установить на локальную машину docker. Все ниже перечисленные действия будут для ОС Ubuntu Linux.
