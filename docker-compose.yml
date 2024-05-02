@@ -9,6 +9,13 @@ services:
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    env_file: .env
+    ports:
+      - 5005:80
+    depends_on:
+      - steam-db
   tg_bot:
     image: pashykdf/steam_bot
     env_file: .env
