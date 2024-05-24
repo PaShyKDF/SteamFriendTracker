@@ -17,7 +17,6 @@ from parsers import get_game_id_from_name
 load_dotenv()
 
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
-TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 MY_WEB_API_STEAM_KEY = os.getenv('MY_WEB_API_STEAM_KEY')
 
 bot = AsyncTeleBot(TELEGRAM_TOKEN, state_storage=StateMemoryStorage())
